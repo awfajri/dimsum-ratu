@@ -10,7 +10,7 @@
         <h4>Hubungi Kami</h4>
         <p>WA: 085156287360</p>
         <p>IG: @dimsumratu.telukjambe</p>
-        <p>Jalan Dimsum No. 88, Jakarta</p>
+        <p>Jalan Telagasari</p>
       </div>
 
       <div class="footer-col">
