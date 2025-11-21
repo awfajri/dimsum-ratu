@@ -1,0 +1,66 @@
+/* IMPORT FONT */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");
+
+/* GLOBAL VARIABLES */
+:root {
+  --brand-red: #b71c1c;
+  --brand-gold: #ffc107;
+
+  /* Override PrimeVue Colors */
+  --p-primary-color: #b71c1c;
+  --p-primary-contrast-color: #ffffff;
+  --p-primary-hover-color: #a51919;
+
+  /* Tinggi Navbar (Untuk hitungan padding) */
+  --navbar-height: 90px;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #fafafa;
+  color: #333;
+  margin: 0;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* CONTAINER UTAMA */
+.container {
+  max-width: 1200px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+/* SETTING JARAK KONTEN (Agar tidak tertutup navbar & tidak mepet footer) */
+.main-content {
+  padding-top: calc(var(--navbar-height) + 40px); /* Jarak Atas */
+  padding-bottom: 120px; /* Jarak Bawah (Space ke Footer) */
+
+  flex: 1;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* --- CLASS ANIMASI (Dipanggil oleh main.js) --- */
+
+/* Kondisi Awal: Transparan & Turun 50px */
+.before-enter {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 1s cubic-bezier(0.5, 0, 0, 1); /* Transisi Mulus */
+}
+
+/* Kondisi Akhir: Muncul & Posisi Normal */
+.enter-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fix: Pastikan Navbar tidak ikut menghilang */
+.custom-menubar {
+  opacity: 1 !important;
+  transform: none !important;
+}
