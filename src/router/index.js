@@ -12,10 +12,16 @@ import LoginView from "../views/LoginView.vue"; // Ini Login Admin
 // Import Views BARU (Member)
 import RegisterView from "../views/auth/RegisterView.vue";
 import UserLoginView from "../views/auth/UserLoginView.vue";
+import OrderHistoryView from "../views/user/OrderHistoryView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: "/my-orders",
+      component: OrderHistoryView,
+      meta: { requiresAuth: false }, // Ubah jadi true jika ingin Wajib Login (biar aman)
+    },
     { path: "/", component: HomeView },
     { path: "/katalog", component: CatalogView },
     { path: "/keranjang", component: CartView },

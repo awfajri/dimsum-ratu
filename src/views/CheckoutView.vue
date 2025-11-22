@@ -4,6 +4,7 @@ import { useCartStore } from "../stores/cart";
 import { db } from "../firebaseConfig";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { useRouter } from "vue-router";
+import { useUserStore } from "../stores/user";
 
 // Import PrimeVue Components
 import InputText from "primevue/inputtext";
@@ -16,6 +17,7 @@ import Message from "primevue/message";
 import Dialog from "primevue/dialog"; // <--- BARU: Import Dialog
 
 const cartStore = useCartStore();
+const userStore = useUserStore();
 const router = useRouter();
 const loading = ref(false);
 const showQRPopup = ref(false); // <--- BARU: State untuk Popup QR
@@ -47,6 +49,7 @@ const submitOrder = async () => {
 
   try {
     const orderData = {
+      userId: userStore.user ? userStore.user.uid : null,
       customer: customer.value,
       items: cartStore.items,
       total: grandTotal.value,
