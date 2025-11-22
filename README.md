@@ -87,7 +87,7 @@ Ikuti langkah ini untuk menjalankan project di komputer Anda:
 1.  **Clone Repository**
 
     ```bash
-    git clone [https://github.com/username-anda/dimsum-ratu-shop.git](https://github.com/username-anda/dimsum-ratu-shop.git)
+    git clone [https://github.com/awfajri/dimsum-ratu.git](https://github.com/awfajri/dimsum-ratu.git)
     cd dimsum-ratu-shop
     ```
 
