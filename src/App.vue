@@ -1,8 +1,16 @@
 <script setup>
+import { onMounted } from "vue"; // Tambah onMounted
 import { RouterView, useRoute } from "vue-router";
 import Navbar from "./components/Navbar.vue";
 import Footer from "./components/Footer.vue";
+import { useUserStore } from "./stores/user";
+
 const route = useRoute();
+const userStore = useUserStore();
+
+onMounted(() => {
+  userStore.initAuth();
+});
 </script>
 
 <template>

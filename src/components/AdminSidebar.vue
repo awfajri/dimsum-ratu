@@ -56,7 +56,7 @@ const handleLogout = () => {
     </div>
 
     <nav class="sidebar-menu">
-      <p class="menu-label">MAIN MENU</p>
+      <p class="menu-label">Admin Menu</p>
       <button
         v-for="item in menuItems"
         :key="item.value"

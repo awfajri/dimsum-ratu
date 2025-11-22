@@ -1,13 +1,17 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { getAuth, onAuthStateChanged } from "firebase/auth"; // Import Auth
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-// Import Views
+// Import Views Lama
 import HomeView from "../views/HomeView.vue";
 import CatalogView from "../views/CatalogView.vue";
 import CartView from "../views/CartView.vue";
 import CheckoutView from "../views/CheckoutView.vue";
 import AdminView from "../views/AdminView.vue";
-import LoginView from "../views/LoginView.vue"; // Import Login
+import LoginView from "../views/LoginView.vue"; // Ini Login Admin
+
+// Import Views BARU (Member)
+import RegisterView from "../views/auth/RegisterView.vue";
+import UserLoginView from "../views/auth/UserLoginView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,16 +20,22 @@ const router = createRouter({
     { path: "/katalog", component: CatalogView },
     { path: "/keranjang", component: CartView },
     { path: "/checkout", component: CheckoutView },
+
+    // Route Admin (Login Khusus)
     {
-      path: "/login",
+      path: "/login", // Admin Login (Bisa diganti /admin-login kalau mau dipisah, tapi biarkan dulu)
       component: LoginView,
       meta: { hideNavbar: true },
     },
     {
       path: "/admin",
       component: AdminView,
-      meta: { requiresAuth: true, hideNavbar: true }, // Tanda: Halaman ini butuh login
+      meta: { requiresAuth: true, hideNavbar: true },
     },
+
+    // Route Member (BARU)
+    { path: "/register", component: RegisterView },
+    { path: "/login-member", component: UserLoginView },
   ],
 });
 
