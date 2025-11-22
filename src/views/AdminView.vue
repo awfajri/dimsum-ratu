@@ -13,7 +13,7 @@ import {
 } from "firebase/firestore";
 
 // Import Komponen
-import AdminSidebar from "../components/AdminSidebar.vue"; // <--- Sidebar Baru
+import AdminSidebar from "../components/AdminSidebar.vue";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import Button from "primevue/button";
@@ -23,14 +23,25 @@ import InputText from "primevue/inputtext";
 import Textarea from "primevue/textarea";
 import Select from "primevue/select";
 import InputNumber from "primevue/inputnumber";
+import ConfirmDialog from "primevue/confirmdialog"; // Import Dialog Konfirmasi
+import { useConfirm } from "primevue/useconfirm"; // Import Hook Confirm
 
-// --- STATE ---
-const activeTab = ref("0"); // Dikontrol oleh Sidebar
+// --- SETUP ---
+const activeTab = ref("0");
+const confirm = useConfirm(); // Inisialisasi Confirm Service
 
-// --- LOGIKA PESANAN (Sama seperti sebelumnya) ---
+// --- LOGIKA PESANAN ---
 const orders = ref([]);
 const loadingOrders = ref(true);
 let unsubscribeOrders = null;
+
+// Pilihan Status (Untuk Dropdown PrimeVue)
+const statusOptions = ref([
+  { label: "Pending", value: "Menunggu Pembayaran" },
+  { label: "Proses", value: "Lunas / Proses" },
+  { label: "Dikirim", value: "Dikirim" },
+  { label: "Selesai", value: "Selesai" },
+]);
 
 const updateOrderStatus = async (orderId, newStatus) => {
   try {
@@ -39,15 +50,38 @@ const updateOrderStatus = async (orderId, newStatus) => {
     alert("Gagal update");
   }
 };
-const deleteOrder = async (orderId) => {
-  if (confirm("Hapus pesanan ini?")) {
-    try {
-      await deleteDoc(doc(db, "orders", orderId));
-    } catch (err) {
-      alert("Gagal hapus");
-    }
-  }
+
+// Hapus Pesanan (Pakai Dialog Cantik)
+const confirmDeleteOrder = (orderId) => {
+  confirm.require({
+    group: "delete-dialog",
+    header: "Hapus Pesanan?",
+    message:
+      "Data pesanan ini akan dihapus permanen dan tidak bisa dikembalikan.",
+    icon: "pi pi-trash",
+    rejectProps: {
+      label: "Batal",
+      icon: "pi pi-times",
+      outlined: true,
+      severity: "secondary",
+      size: "small",
+    },
+    acceptProps: {
+      label: "Hapus",
+      icon: "pi pi-check",
+      severity: "danger",
+      size: "small",
+    },
+    accept: async () => {
+      try {
+        await deleteDoc(doc(db, "orders", orderId));
+      } catch (err) {
+        alert("Gagal hapus");
+      }
+    },
+  });
 };
+
 const getSeverity = (status) => {
   switch (status) {
     case "Selesai":
@@ -61,7 +95,7 @@ const getSeverity = (status) => {
   }
 };
 
-// --- LOGIKA PRODUK (Sama seperti sebelumnya) ---
+// --- LOGIKA PRODUK ---
 const products = ref([]);
 const loadingProducts = ref(true);
 let unsubscribeProducts = null;
@@ -83,6 +117,7 @@ const editProduct = (prod) => {
   product.value = { ...prod };
   productDialog.value = true;
 };
+
 const saveProduct = async () => {
   submitted.value = true;
   if (product.value.name && product.value.price) {
@@ -96,23 +131,43 @@ const saveProduct = async () => {
       }
       productDialog.value = false;
       product.value = {};
-      alert("Berhasil disimpan!");
     } catch (e) {
       alert("Gagal simpan.");
     }
   }
 };
-const deleteProduct = async (prod) => {
-  if (confirm("Hapus menu ini?")) {
-    try {
-      await deleteDoc(doc(db, "products", prod.id));
-    } catch (e) {
-      alert("Gagal hapus");
-    }
-  }
+
+// Hapus Produk (Pakai Dialog Cantik)
+const confirmDeleteProduct = (prod) => {
+  confirm.require({
+    group: "delete-dialog", // Pakai grup yang sama biar desainnya konsisten
+    header: "Hapus Menu?",
+    message: `Yakin ingin menghapus menu "${prod.name}" dari daftar?`,
+    icon: "pi pi-exclamation-triangle",
+    rejectProps: {
+      label: "Batal",
+      icon: "pi pi-times",
+      outlined: true,
+      severity: "secondary",
+      size: "small",
+    },
+    acceptProps: {
+      label: "Hapus",
+      icon: "pi pi-check",
+      severity: "danger",
+      size: "small",
+    },
+    accept: async () => {
+      try {
+        await deleteDoc(doc(db, "products", prod.id));
+      } catch (e) {
+        alert("Gagal hapus");
+      }
+    },
+  });
 };
 
-// --- FETCH ---
+// --- FETCH DATA ---
 onMounted(() => {
   const qOrder = query(collection(db, "orders"), orderBy("createdAt", "desc"));
   unsubscribeOrders = onSnapshot(qOrder, (s) => {
@@ -189,25 +244,25 @@ const formatDate = (t) =>
           </Column>
           <Column header="Aksi">
             <template #body="slotProps">
-              <div class="flex gap-2">
-                <select
-                  :value="slotProps.data.status"
-                  @change="
-                    updateOrderStatus(slotProps.data.id, $event.target.value)
+              <div class="flex align-items-center gap-2">
+                <Select
+                  :modelValue="slotProps.data.status"
+                  :options="statusOptions"
+                  optionLabel="label"
+                  optionValue="value"
+                  placeholder="Ubah Status"
+                  class="w-full md:w-10rem status-dropdown"
+                  @update:modelValue="
+                    (val) => updateOrderStatus(slotProps.data.id, val)
                   "
-                  class="status-select"
-                >
-                  <option value="Menunggu Pembayaran">Pending</option>
-                  <option value="Lunas / Proses">Proses</option>
-                  <option value="Dikirim">Dikirim</option>
-                  <option value="Selesai">Selesai</option>
-                </select>
+                />
+
                 <Button
                   icon="pi pi-trash"
                   severity="danger"
                   text
                   rounded
-                  @click="deleteOrder(slotProps.data.id)"
+                  @click="confirmDeleteOrder(slotProps.data.id)"
                 />
               </div>
             </template>
@@ -253,7 +308,7 @@ const formatDate = (t) =>
                 severity="danger"
                 text
                 rounded
-                @click="deleteProduct(slotProps.data)"
+                @click="confirmDeleteProduct(slotProps.data)"
               />
             </template>
           </Column>
@@ -305,24 +360,41 @@ const formatDate = (t) =>
         <Button label="Simpan" @click="saveProduct" />
       </template>
     </Dialog>
+
+    <ConfirmDialog group="delete-dialog">
+      <template #container="{ message, acceptCallback, rejectCallback }">
+        <div class="custom-dialog-delete">
+          <div class="dialog-icon-wrapper-delete">
+            <i :class="message.icon" class="dialog-icon-delete"></i>
+          </div>
+          <span class="dialog-title">{{ message.header }}</span>
+          <p class="dialog-message">{{ message.message }}</p>
+
+          <div class="dialog-actions">
+            <button class="btn-cancel" @click="rejectCallback">Batal</button>
+            <button class="btn-confirm-delete" @click="acceptCallback">
+              Ya, Hapus
+            </button>
+          </div>
+        </div>
+      </template>
+    </ConfirmDialog>
   </div>
 </template>
 
 <style scoped>
-/* LAYOUT UTAMA */
+/* LAYOUT */
 .admin-layout {
   display: flex;
   width: 100%;
   min-height: 100vh;
   background-color: #f4f6f8;
 }
-
 .admin-content {
   flex: 1;
   padding: 30px;
   overflow-y: auto;
 }
-
 .content-header {
   margin-bottom: 30px;
 }
@@ -335,7 +407,6 @@ const formatDate = (t) =>
   color: #666;
   margin-top: 5px;
 }
-
 .card-wrapper {
   background: white;
   padding: 20px;
@@ -344,11 +415,10 @@ const formatDate = (t) =>
 }
 
 /* UTILITY */
-.status-select {
-  padding: 6px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
+.status-dropdown {
+  border-radius: 8px;
+  min-width: 150px;
+} /* Style Dropdown baru */
 .w-12 {
   width: 3rem;
 }
@@ -378,5 +448,84 @@ const formatDate = (t) =>
 }
 .w-full {
   width: 100%;
+}
+.align-items-center {
+  align-items: center;
+}
+
+/* --- CSS CUSTOM DIALOG DELETE (Style mirip logout tapi nuansa Merah Peringatan) --- */
+.custom-dialog-delete {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 400px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.dialog-icon-wrapper-delete {
+  width: 70px;
+  height: 70px;
+  background-color: #fee2e2; /* Merah muda banget */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.dialog-icon-delete {
+  font-size: 2rem;
+  color: #dc2626;
+}
+
+.dialog-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #333;
+  display: block;
+  margin-bottom: 5px;
+}
+.dialog-message {
+  color: #666;
+  font-size: 0.95rem;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+.dialog-actions button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  border: none;
+  transition: 0.2s;
+}
+
+.btn-cancel {
+  background: white;
+  border: 1px solid #e5e7eb !important;
+  color: #374151;
+}
+.btn-cancel:hover {
+  background: #f9fafb;
+}
+
+.btn-confirm-delete {
+  background: #dc2626;
+  color: white;
+  box-shadow: 0 4px 10px rgba(220, 38, 38, 0.2);
+}
+.btn-confirm-delete:hover {
+  background: #b91c1c;
+  transform: translateY(-2px);
 }
 </style>
