@@ -19,11 +19,12 @@ const router = createRouter({
     {
       path: "/login",
       component: LoginView,
+      meta: { hideNavbar: true },
     },
     {
       path: "/admin",
       component: AdminView,
-      meta: { requiresAuth: true }, // Tanda: Halaman ini butuh login
+      meta: { requiresAuth: true, hideNavbar: true }, // Tanda: Halaman ini butuh login
     },
   ],
 });

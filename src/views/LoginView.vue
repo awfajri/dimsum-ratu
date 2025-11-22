@@ -4,78 +4,134 @@ import { auth } from "../firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "vue-router";
 
+import InputText from "primevue/inputtext";
+import Button from "primevue/button";
+import Card from "primevue/card";
+import Message from "primevue/message";
+
 const email = ref("");
 const password = ref("");
 const errorMsg = ref("");
+const loading = ref(false);
 const router = useRouter();
 
 const handleLogin = async () => {
+  loading.value = true;
+  errorMsg.value = "";
   try {
     await signInWithEmailAndPassword(auth, email.value, password.value);
-    router.push("/admin"); // Jika sukses, lempar ke dashboard
+    router.push("/admin");
   } catch (err) {
     errorMsg.value = "Email atau Password salah!";
+  } finally {
+    loading.value = false;
   }
 };
 </script>
 
 <template>
-  <div class="login-container">
-    <div class="login-box">
-      <h2>Admin Portal</h2>
-      <p>Area terbatas khusus owner.</p>
-
-      <form @submit.prevent="handleLogin">
-        <div class="form-group">
-          <input
-            v-model="email"
-            type="email"
-            placeholder="Email Admin"
-            required
-          />
+  <div class="login-page">
+    <Card class="login-card">
+      <template #title>
+        <div class="text-center">
+          <div class="logo-emoji">🥟</div>
+          <h2 class="mb-1 text-primary">Admin Portal</h2>
+          <p class="text-sm text-gray">Masuk untuk mengelola toko</p>
         </div>
-        <div class="form-group">
-          <input
-            v-model="password"
-            type="password"
-            placeholder="Password"
-            required
+      </template>
+      <template #content>
+        <form @submit.prevent="handleLogin" class="form-group">
+          <div class="field">
+            <label>Email</label>
+            <InputText
+              v-model="email"
+              type="email"
+              class="w-full"
+              placeholder="admin@dimsum.com"
+            />
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <InputText
+              v-model="password"
+              type="password"
+              class="w-full"
+              placeholder="••••••"
+            />
+          </div>
+
+          <Message v-if="errorMsg" severity="error" size="small" class="mb-3">{{
+            errorMsg
+          }}</Message>
+
+          <Button
+            label="Masuk Dashboard"
+            icon="pi pi-sign-in"
+            class="w-full"
+            :loading="loading"
+            type="submit"
           />
-        </div>
-
-        <p v-if="errorMsg" class="error">{{ errorMsg }}</p>
-
-        <button type="submit" class="btn btn-primary w-full">
-          Masuk Dashboard
-        </button>
-      </form>
-    </div>
+        </form>
+      </template>
+    </Card>
   </div>
 </template>
 
 <style scoped>
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 70vh;
-  background-color: #f0f2f5;
-}
-.login-box {
-  background: white;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+/* CSS untuk memusatkan Card secara sempurna */
+.login-page {
+  background-color: #f8f9fa; /* Background abu muda bersih */
+  min-height: 100vh; /* Tinggi full layar */
   width: 100%;
-  max-width: 350px;
+  display: flex;
+  align-items: center; /* Tengah Vertikal */
+  justify-content: center; /* Tengah Horizontal */
+  padding: 20px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  border: 1px solid #eee;
+}
+
+.logo-emoji {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+.text-center {
   text-align: center;
 }
-.form-group {
-  margin-bottom: 15px;
+.text-primary {
+  color: var(--brand-red);
+  font-weight: 800;
+  margin: 0;
 }
-.error {
-  color: red;
+.text-gray {
+  color: #666;
   font-size: 0.9rem;
-  margin-bottom: 10px;
+  margin-top: 5px;
+}
+
+.field {
+  margin-bottom: 1.5rem;
+}
+.field label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #444;
+}
+.w-full {
+  width: 100%;
+}
+.mb-1 {
+  margin-bottom: 5px;
+}
+.mb-3 {
+  margin-bottom: 15px;
 }
 </style>

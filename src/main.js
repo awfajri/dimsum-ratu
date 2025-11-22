@@ -6,6 +6,7 @@ import router from "./router";
 import PrimeVue from "primevue/config";
 import Aura from "@primevue/themes/aura";
 import "primeicons/primeicons.css";
+import ConfirmationService from "primevue/confirmationservice";
 
 import "./assets/main.css";
 
@@ -52,5 +53,5 @@ const animateOnce = {
 };
 
 app.directive("animate", animateOnce); // Panggil dengan v-animate
-
+app.use(ConfirmationService);
 app.mount("#app");
