@@ -1,38 +1,46 @@
-# dimsum-ratu-shop
+# 🥟 Dimsum Ratu - E-Commerce Web App
 
-This template should help get you started developing with Vue 3 in Vite.
+**Dimsum Ratu** adalah aplikasi web e-commerce modern yang dibangun untuk mengotomatisasi proses pemesanan dan manajemen stok toko dimsum. Aplikasi ini mengubah proses manual (WhatsApp) menjadi sistem digital yang terintegrasi, responsif, dan _real-time_.
 
-## Recommended IDE Setup
+![Vue.js](https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D)
+![PrimeVue](https://img.shields.io/badge/PrimeVue-Display?style=for-the-badge&logo=prime&logoColor=white&color=10b981)
+![Firebase](https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black)
+![Pinia](https://img.shields.io/badge/Pinia-State_Management-yellow?style=for-the-badge)
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+---
 
-## Recommended Browser Setup
+## 🚀 Fitur Utama
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+### 🛍️ Sisi Pelanggan (Customer)
 
-## Customize configuration
+- **Homepage Interaktif:** Banner promosi, Carousel produk unggulan, Testimoni, dan FAQ (Accordion).
+- **Katalog Pintar:** Fitur **Pencarian (Search)** dan **Filter Kategori** (Kukus, Goreng, Frozen) untuk memudahkan pemilihan menu.
+- **Keranjang Belanja:** Manajemen jumlah barang (Qty) dengan kalkulasi harga otomatis.
+- **Checkout WhatsApp:** Formulir pengiriman yang otomatis memformat pesanan menjadi pesan WhatsApp ke penjual.
+- **Pembayaran QRIS:** Popup gambar QRIS yang bisa di-zoom untuk kemudahan pembayaran.
+- **Animasi UI:** Transisi halaman yang halus dan _scroll animations_.
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+### 🔐 Sisi Admin (Dashboard Owner)
 
-## Project Setup
+- **Otentikasi Aman:** Halaman login khusus admin menggunakan Firebase Auth.
+- **Monitoring Pesanan Real-time:** Pesanan masuk muncul otomatis tanpa refresh halaman.
+- **Manajemen Status:** Update status pesanan (Pending, Proses, Dikirim, Selesai) dengan indikator warna.
+- **Manajemen Menu (CRUD):**
+  - Tambah menu baru.
+  - Edit harga, deskripsi, dan gambar (via URL).
+  - Hapus menu yang tidak tersedia.
 
-```sh
-npm install
-```
+---
 
-### Compile and Hot-Reload for Development
+## 🛠️ Teknologi yang Digunakan
 
-```sh
-npm run dev
-```
+- **Frontend:** Vue.js 3 (Composition API) + Vite
+- **UI Framework:** PrimeVue (Aura Theme) + Custom CSS
+- **State Management:** Pinia (Persistent Cart)
+- **Database:** Firebase Firestore (NoSQL)
+- **Authentication:** Firebase Authentication
+- **Deployment:** Firebase Hosting
 
-### Compile and Minify for Production
+---
 
-```sh
-npm run build
-```
+## 📂 Struktur Project

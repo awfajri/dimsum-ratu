@@ -56,7 +56,7 @@ const submitOrder = async () => {
 
     const docRef = await addDoc(collection(db, "orders"), orderData);
 
-    let waMessage = `Halo Dimsum Ratu, saya mau konfirmasi order baru:%0A`;
+    let waMessage = `Halo Dimsum Ratu Telagasari, saya mau konfirmasi order baru:%0A`;
     waMessage += `--------------------------------%0A`;
     waMessage += `👤 Nama: *${customer.value.name}*%0A`;
     waMessage += `🆔 Order ID: ${docRef.id.slice(0, 5)}...%0A`;

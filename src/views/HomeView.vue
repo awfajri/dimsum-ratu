@@ -174,6 +174,7 @@ const formatRupiah = (num) =>
       </div>
     </section>
 
+    <!-- --- CAROUSEL PRODUK FAVORIT PELANGGAN --- -->
     <section class="carousel-section" v-animate>
       <div class="container">
         <h2 class="section-title">Favorit Pelanggan</h2>
