@@ -44,3 +44,109 @@
 ---
 
 ## 📂 Struktur Project
+
+```text
+dimsum-ratu-shop/
+├── public/              # File statis publik
+├── src/
+│   ├── assets/          # Gambar statis & CSS global
+│   │   ├── main.css
+│   │   └── logo.svg
+│   ├── components/      # Komponen Vue (Bagian kecil UI)
+│   │   ├── icons/       # Ikon SVG
+│   │   ├── Navbar.vue   # Menu Navigasi Atas
+│   │   └── Footer.vue   # Kaki Website
+│   ├── router/          # Konfigurasi Routing (Vue Router)
+│   │   └── index.js
+│   ├── stores/          # State Management (Pinia)
+│   │   └── cart.js      # Logika Keranjang Belanja
+│   ├── views/           # Halaman Utama (Pages)
+│   │   ├── HomeView.vue     # Halaman Depan
+│   │   ├── CatalogView.vue  # Halaman Menu & Search
+│   │   ├── CartView.vue     # Halaman Keranjang
+│   │   ├── CheckoutView.vue # Halaman Pembayaran
+│   │   ├── LoginView.vue    # Login Admin
+│   │   └── AdminView.vue    # Dashboard Admin
+│   ├── App.vue          # Root Component
+│   ├── firebaseConfig.js # Konfigurasi Koneksi Firebase
+│   └── main.js          # Entry Point & Konfigurasi Plugin
+├── index.html
+├── package.json
+├── vite.config.js
+└── README.md
+```
+
+````
+
+---
+
+## 💻 Cara Menjalankan (Local Development)
+
+Ikuti langkah ini untuk menjalankan project di komputer Anda:
+
+1.  **Clone Repository**
+
+    ```bash
+    git clone [https://github.com/username-anda/dimsum-ratu-shop.git](https://github.com/username-anda/dimsum-ratu-shop.git)
+    cd dimsum-ratu-shop
+    ```
+
+2.  **Install Dependencies**
+    Pastikan Node.js sudah terinstall.
+
+    ```bash
+    npm install
+    ```
+
+3.  **Konfigurasi Firebase**
+    Pastikan file `src/firebaseConfig.js` sudah berisi kredensial API Firebase Anda. Contoh format:
+
+    ```javascript
+    // src/firebaseConfig.js
+    const firebaseConfig = {
+      apiKey: "API_KEY_ANDA",
+      authDomain: "dimsum-ratu-shop.firebaseapp.com",
+      projectId: "dimsum-ratu-shop",
+      storageBucket: "dimsum-ratu-shop.appspot.com",
+      messagingSenderId: "ID_ANDA",
+      appId: "ID_APP_ANDA",
+    };
+    export { db, auth };
+    ```
+
+4.  **Jalankan Server Lokal**
+
+    ```bash
+    npm run dev
+    ```
+
+    Buka browser di `http://localhost:5173`
+
+---
+
+## 🌐 Deployment
+
+Project ini sudah siap di-deploy menggunakan **Firebase Hosting**.
+
+1.  **Build Project** (Membuat folder `dist`)
+
+    ```bash
+    npm run build
+    ```
+
+2.  **Deploy ke Firebase**
+
+    ```bash
+    firebase deploy
+    ```
+
+---
+
+## 📝 Catatan Pengembang
+
+Project ini dikembangkan dengan fokus pada **User Experience (UX)** yang bersih dan **Kemudahan Manajemen** bagi pemilik bisnis. Menggunakan pendekatan _Single Page Application (SPA)_ untuk navigasi yang cepat tanpa loading berulang.
+
+---
+
+© 2025 Dimsum Ratu. Dibuat dengan ❤️ menggunakan Vue.js.
+````
