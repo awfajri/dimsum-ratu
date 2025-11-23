@@ -78,7 +78,7 @@ const events = ref([
 // Data Testimoni
 const testimonials = ref([
   {
-    name: "Auf Fajri",
+    name: "Yan Faunas",
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKPgEMIcGlLpyaZtnw3VSc2KMAKC8i0OYpN9QoffdGyjrbMMdaXc3uzJgv55r1izfNA_I&usqp=CAU",
     text: "Dimsumnya padat banget isinya, sausnya juga juara! josss gandossss!!.",
