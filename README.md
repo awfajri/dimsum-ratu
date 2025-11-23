@@ -152,11 +152,3 @@ Project ini dikembangkan dengan fokus pada **User Experience (UX)** yang bersih 
 © 2025 Dimsum Ratu. Dibuat dengan ❤️ menggunakan Vue.js & PrimeVue oleh awfajri.
 
 ````
-
-Jangan lupa untuk **commit** dan **push** perubahan ini ke GitHub ya:
-
-```bash
-git add README.md
-git commit -m "Update README dengan fitur terbaru"
-git push
-```
