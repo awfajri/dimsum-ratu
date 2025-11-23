@@ -53,6 +53,13 @@ const handleLogin = async () => {
               :feedback="false"
               toggleMask
             />
+            <div class="text-right mt-1">
+              <router-link
+                to="/forgot-password"
+                class="text-xs text-brand no-underline"
+                >Lupa Password?</router-link
+              >
+            </div>
           </div>
 
           <Message
@@ -86,6 +93,12 @@ const handleLogin = async () => {
 
 <style scoped>
 /* Gunakan style yang sama persis dengan RegisterView di atas */
+.text-right {
+  text-align: right;
+}
+.text-xs {
+  font-size: 0.8rem;
+}
 .auth-page {
   display: flex;
   justify-content: center;

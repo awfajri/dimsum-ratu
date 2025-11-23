@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 // Import Views Lama
+import ForgotPasswordView from "../views/auth/ForgotPasswordView.vue";
 import HomeView from "../views/HomeView.vue";
 import CatalogView from "../views/CatalogView.vue";
 import CartView from "../views/CartView.vue";
@@ -17,6 +18,7 @@ import OrderHistoryView from "../views/user/OrderHistoryView.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    { path: "/forgot-password", component: ForgotPasswordView },
     {
       path: "/my-orders",
       component: OrderHistoryView,
